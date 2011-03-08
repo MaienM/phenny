@@ -86,5 +86,18 @@ def gcs(phenny, input):
    phenny.say(reply)
 gcs.commands = ['gcs', 'comp']
 
+def gs(phenny, input):
+   query = input.group(2)
+   uri = 'http://www.google.com/complete/search?hl=en&csv=true&qu=' + web.urllib.quote(query.encode('utf-8'))
+   bytes = web.get(uri)
+   results = eval(bytes[19:-1])[1]
+   suggests = [result[0] for result in results]
+   if len(suggests):
+      phenny.reply(', '.join(suggests))
+   else:
+      phenny.reply("No suggestions found for '%s'." % query)
+gs.commands = ['gs', 'suggest']
+
+
 if __name__ == '__main__': 
    print __doc__.strip()
