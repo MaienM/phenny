@@ -7,7 +7,7 @@ Licensed under the Eiffel Forum License 2.
 http://inamidst.com/phenny/
 """
 
-import re, math, time, urllib, locale, socket, struct, datetime
+import re, math, time, urllib, locale, socket, struct, datetime, os
 from decimal import Decimal as dec
 from tools import deprecated
 
@@ -208,6 +208,13 @@ def f_time(self, origin, match, args):
    elif (not match.group(2)) and People.has_key(origin.nick): 
       tz = People[origin.nick]
 
+   # DST support for personal timezones.
+   if '/' in tz:
+      os.environ['TZ'] = tz
+      time.tzset()
+      if time.tzname[0] != tz.split('/')[0]:
+        tz = time.tzname[time.localtime().tm_isdst]
+
    TZ = tz.upper()
    if len(tz) > 30: return
 
@@ -230,7 +237,7 @@ def f_time(self, origin, match, args):
    else: 
       try: t = float(tz)
       except ValueError: 
-         import os, re, subprocess
+         import re, subprocess
          r_tz = re.compile(r'^[A-Za-z]+(?:/[A-Za-z_]+)*$')
          if r_tz.match(tz) and os.path.isfile('/usr/share/zoneinfo/' + tz): 
             cmd, PIPE = 'TZ=%s date' % tz, subprocess.PIPE
