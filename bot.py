@@ -183,7 +183,7 @@ class Phenny(irc.Bot):
                 s.cgroups += ['owner']
               if s.admin:
                 s.cgroups += ['admin']
-              s.cgroups = [group for (group, members) in self.config.groups.items() if origin.nick in members]
+              s.cgroups += [group for (group, members) in self.config.groups.items() if origin.nick in members]
             return s
 
       return CommandInput(text, origin, bytes, match, event, args)
