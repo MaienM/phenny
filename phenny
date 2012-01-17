@@ -30,7 +30,9 @@ def create_default_config(fn):
    channels = ['#example', '#test']
    owner = 'yournickname'
 
-   # password = 'yourserverpassword'
+   # password is the NickServ password, serverpass is the server password
+   # password = 'example'
+   # serverpass = 'serverpass'
 
    # These are people who will be able to use admin.py's functions...
    admins = [owner, 'someoneyoutrust']
@@ -50,7 +52,7 @@ def create_default_config(fn):
    external = { 
       '#liberal': ['!'], # allow all
       '#conservative': [], # allow none
-      '*': ['py', 'whois', 'glyph'] # default whitelist
+      '*': ['!'] # default whitelist, allow all
    }
 
    # EOF

@@ -39,7 +39,6 @@ class Phenny(irc.Bot):
       else: 
          for fn in self.config.enable: 
             filenames.append(os.path.join(home, 'modules', fn + '.py'))
-      # @@ exclude
 
       if hasattr(self.config, 'extra'): 
          for fn in self.config.extra: 
@@ -51,8 +50,12 @@ class Phenny(irc.Bot):
                      filenames.append(os.path.join(fn, n))
 
       modules = []
+      excluded_modules = getattr(self.config, 'exclude', [])
       for filename in filenames: 
          name = os.path.basename(filename)[:-3]
+         if name in excluded_modules: continue
+         # if name in sys.modules: 
+         #    del sys.modules[name]
          try: module = imp.load_source(name, filename)
          except Exception, e: 
             print "Error loading %s: %s (in bot.py)" % (name, e)
@@ -92,8 +95,8 @@ class Phenny(irc.Bot):
 
       def sub(pattern, self=self): 
          # These replacements have significant order
-         pattern = pattern.replace('$nickname', self.nick)
-         return pattern.replace('$nick', r'%s[,:] +' % self.nick)
+         pattern = pattern.replace('$nickname', re.escape(self.nick))
+         return pattern.replace('$nick', r'%s[,:] +' % re.escape(self.nick))
 
       for name, func in self.variables.iteritems(): 
          # print name, func

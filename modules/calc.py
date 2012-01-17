@@ -69,6 +69,8 @@ calc.example = '.calc 5 + 3'
 
 def c(phenny, input): 
    """Google calculator."""
+   if not input.group(2):
+      return phenny.reply("Nothing to calculate.")
    q = input.group(2).encode('utf-8')
    q = q.replace('\xcf\x95', 'phi') # utf-8 U+03D5
    q = q.replace('\xcf\x80', 'pi') # utf-8 U+03C0
@@ -90,7 +92,7 @@ c.commands = ['c']
 c.example = '.c 5 + 3'
 
 def py(phenny, input): 
-   query = input.group(2)
+   query = input.group(2).encode('utf-8')
    uri = 'http://tumbolia.appspot.com/py/'
    answer = web.get(uri + web.urllib.quote(query))
    if answer: 
@@ -99,9 +101,11 @@ def py(phenny, input):
 py.commands = ['py']
 
 def wa(phenny, input): 
+   if not input.group(2):
+      return phenny.reply("No search term.")
    query = input.group(2).encode('utf-8')
    uri = 'http://tumbolia.appspot.com/wa/'
-   answer = web.get(uri + web.urllib.quote(query))
+   answer = web.get(uri + web.urllib.quote(query.replace('+', '%2B')))
    if answer: 
       phenny.say(answer)
    else: phenny.reply('Sorry, no result.')
