@@ -46,8 +46,8 @@ def stats(phenny, input):
    users = {}
    channels = {}
 
-   ignore = set(['f_note', 'startup', 'message', 'noteuri'])
-   for (name, user), count in phenny.stats.items(): 
+   ignore = set(['f_note', 'startup', 'message', 'noteuri', 'capab'])
+   for (name, user), count in phenny.stats.iteritems(): 
       if name in ignore: continue
       if not user: continue
 

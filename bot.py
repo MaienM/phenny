@@ -22,8 +22,7 @@ def decode(bytes):
 
 class Phenny(irc.Bot): 
    def __init__(self, config): 
-      args = (config.nick, config.name, config.channels, config.password)
-      irc.Bot.__init__(self, *args)
+      irc.Bot.__init__(self, config.nick, config.name, config.channels)
       self.config = config
       self.doc = {}
       self.stats = {}
@@ -56,7 +55,7 @@ class Phenny(irc.Bot):
          name = os.path.basename(filename)[:-3]
          try: module = imp.load_source(name, filename)
          except Exception, e: 
-            print >> sys.stderr, "Error loading %s: %s (in bot.py)" % (name, e)
+            print "Error loading %s: %s (in bot.py)" % (name, e)
          else: 
             if hasattr(module, 'setup'): 
                module.setup(self)
@@ -64,8 +63,8 @@ class Phenny(irc.Bot):
             modules.append(name)
 
       if modules: 
-         print >> sys.stderr, 'Registered modules:', ', '.join(modules)
-      else: print >> sys.stderr, "Warning: Couldn't find any modules"
+         print 'Registered modules:', ', '.join(modules)
+      else: print "Warning: Couldn't find any modules"
 
       self.bind_commands()
 
@@ -127,7 +126,7 @@ class Phenny(irc.Bot):
                   prefix = self.config.prefix
                   commands, pattern = func.rule
                   for command in commands: 
-                     command = r'(%s)\b(?: +(?:%s))?' % (command, pattern)
+                     command = r'(%s)(?: +(?:%s))?' % (command, pattern)
                      regexp = re.compile(prefix + command)
                      bind(self, func.priority, regexp, func)
 
