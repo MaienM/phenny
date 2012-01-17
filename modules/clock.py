@@ -210,7 +210,7 @@ def f_time(self, origin, match, args):
 
    # DST support for personal timezones.
    if '/' in tz:
-      os.environ['TZ'] = tz
+      os.environ['TZ'] = tz.replace(' ', '_')
       time.tzset()
       if time.tzname[0] != tz.split('/')[0]:
         tz = time.tzname[time.localtime().tm_isdst]
