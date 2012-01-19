@@ -29,7 +29,7 @@ def save(fn, data):
 
 def setup(self):
    fn = self.nick + '-' + self.config.host + '.define.db'
-   self.def_filename = os.path.join(os.path.expanduser('~/.phenny'), fn)
+   self.def_filename = os.path.join(os.path.dirname(self.config.filename), fn)
    if not os.path.exists(self.def_filename):
       try: f = open(self.def_filename, 'w')
       except OSError: pass
