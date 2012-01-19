@@ -179,7 +179,7 @@ class Phenny(irc.Bot):
             s.args = args
             s.admin = origin.nick in self.config.admins
             s.owner = origin.nick == self.config.owner
-            if self.config.groups:
+            if hasattr(self.config, 'groups'):
               s.cgroups = []
               if s.owner:
                 s.cgroups += ['owner']
