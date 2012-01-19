@@ -171,7 +171,7 @@ def action(phenny, input):
   postf = input.group(2)
 
   # We filter out any custom groups, and admin/owner.
-  while True:
+  while hasattr(phenny.config, 'groups'):
     for group in phenny.config.groups.keys() + ['admin', 'owner']:
       if act.endswith(group):
         act = act[:-(len(group)+1)]
