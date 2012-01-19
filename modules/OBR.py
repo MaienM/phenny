@@ -82,6 +82,8 @@ responses = {
     'high-5s':          r('hi-5s'),
     'high5s':           r('hi-5s'),
     'hi5s':             r('hi-5s'),
+  'tickles':         (act('laughs'),
+                      say('stop that!'),),
   'thanks':          (say("you're welcome"),
                       say('yw'),
                       say('welcome'),
@@ -195,7 +197,7 @@ def action(phenny, input):
 
   act = act % {'nick': input.nick, 
                'chan': input.sender,
-               'postf': postf, 
+               'postf': postf or '',
                'act': trueact, 
                'owner': phenny.config.owner,}
 
