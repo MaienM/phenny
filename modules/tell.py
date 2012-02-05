@@ -65,6 +65,8 @@ def f_remind(phenny, input):
 
    # @@ Multiple comma-separated tellees? Cf. Terje, #swhack, 2006-04-15
    verb, tellee, msg = input.groups()
+   if not msg: 
+      return phenny.reply("Incorrect usage. The correct syntax is .tell recipient message.")
    verb = verb.encode('utf-8')
    tellee = tellee.encode('utf-8')
    msg = msg.encode('utf-8')
