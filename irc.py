@@ -142,8 +142,8 @@ class Bot(asynchat.async_chat):
                time.sleep(wait - elapsed)
 
       # Loop detection
-      messages = [m[1] for m in self.stack[-8:]]
-      if messages.count(text) >= 5: 
+      messages = [m[1] for m in self.stack]
+      if messages.count(text) >= 10:
          text = '...'
          if messages.count('...') >= 3: 
             self.sending.release()
@@ -154,7 +154,7 @@ class Bot(asynchat.async_chat):
          return input.replace('\r', '')
       self.__write(('PRIVMSG', safe(recipient)), safe(text))
       self.stack.append((time.time(), text))
-      self.stack = self.stack[-10:]
+      self.stack = self.stack[-20:]
 
       self.sending.release()
 
